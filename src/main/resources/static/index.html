@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Has Cafe & Restaurant</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 user-scalable=no">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="HandheldFriendly" content="True">
+
+        <!-- CSS -->
+        <link rel="shortcut icon" href="resimler/favicon.png">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <div class="navbar">
+            <div class="container">
+                <div class="left-panel">
+                    <a href="#" data-target="slide-out-left" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                </div>
+                <div class="cafe-name">
+                    <h1>Has Cafe & Restaurant</h1>
+                </div>
+                <div class="right-panel">
+                    <a href="#" data-target="slide-out-right" class="sidenav-trigger">
+                        <i class="material-icons">shopping_cart</i>
+                        <span class="cart-count" style="display: none;">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sol panel -->
+        <div class="left-panel">
+            <ul id="slide-out-left" class="sidenav">
+                <li>
+                    <a href="employee-panel.html"><i class="fa fa-user"></i>Çalışan Girişi</a>
+                </li>
+                <li>
+                    <a href="admin.html"><i class="fa fa-user-shield"></i>Yönetici Girişi</a>
+                </li>
+                <li>
+                    <a href="contact.html"><i class="fa fa-envelope"></i>İletişim</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sağ panel (Sepet) -->
+        <div id="cart-panel" class="cart-panel">
+            <div class="cart-header">
+                <h5>Sepetim</h5>
+                <a href="#" class="close-cart"><i class="material-icons">close</i></a>
+            </div>
+            <div class="cart-content">
+                <!-- Sepet içeriği buraya gelecek -->
+            </div>
+        </div>
+
+        <!-- Overlay -->
+        <div id="cart-overlay" class="cart-overlay"></div>
+
+        <!-- Menu -->
+        <div class="menu">
+            <div class="container">
+                <div class="app-title">
+                    <h4>Menümüz</h4>
+                    <ul class="line">
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li class="line-center"><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                    </ul>
+                </div>
+
+                <div class="categories">
+                    <div class="row">
+                        <div class="col s12">
+                            <ul id="categoryTabs" class="tabs tabs-fixed-width">
+                                <li class="tab col s3">
+                                    <a class="active" href="#loading">Yükleniyor...</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="loading" class="col s12 center-align">
+                            <p>Kategoriler yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <div id="productList" class="row">
+                        <!-- Ürünler buraya yüklenecek -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open Hours -->
+        <div class="open-hours">
+            <div class="container">
+                <div class="app-title">
+                    <h4>Çalışma Saatlerimiz</h4>
+                    <ul class="line">
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li class="line-center"><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                    </ul>
+                </div>
+                <div class="entry">
+                    <h5>Haftaiçi</h5>
+                    <h6>09:00 - 22:00</h6>
+                    <div class="dividing"></div>
+                    <h5>Haftasonu</h5>
+                    <h6>10:00 - 23:00</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <h6>Sosyal Medya</h6>
+                <ul class="icon-social">
+                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li class="google"><a href="#"><i class="fa fa-google"></i></a></li>
+                    <li class="instagram"><a href="#"><i class="fa fa-instagram"></i></a></li>
+                    <li class="rss"><a href="#"><i class="fa fa-rss"></i></a></li>
+                </ul>
+
+                <div class="tel-fax-mail">
+                    <ul>
+                        <li><span>Tel:</span> +90 123 456 7890</li>
+                        <li><span>Faks:</span> +90 123 456 7890</li>
+                        <li><span>Email:</span> info@hasrestaurant.com</li>
+                    </ul>
+                </div>
+
+                <div class="ft-bottom">
+                    <span>Copyright © 2024 Has Restaurant</span>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="js/script.js"></script>
+        <script src="js/custom.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Sol menü için sidenav
+                var leftSidenav = document.querySelectorAll('#slide-out-left');
+                M.Sidenav.init(leftSidenav, {
+                    edge: 'left',
+                    draggable: true,
+                    preventScrolling: true
+                });
+                
+                // Initialize initial tabs
+                var tabs = document.querySelectorAll('.tabs');
+                M.Tabs.init(tabs);
+
+                // Initialize select elements
+                var selects = document.querySelectorAll('select');
+                M.FormSelect.init(selects);
+                
+                // Initialize modals
+                var modals = document.querySelectorAll('.modal');
+                M.Modal.init(modals);
+                
+                // Load menu categories after a small delay
+                setTimeout(loadMenuCategories, 100);
+            });
+        </script>
+
+        <div id="orderForm" class="modal">
+            <div class="modal-content">
+                <h4>Sipariş Ver</h4>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select id="tableSelect" required>
+                            <option value="" disabled selected>Masa Seçiniz</option>
+                        </select>
+                        <label>Masa Seçimi</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="customerName" type="text" class="validate" required>
+                        <label for="customerName">Müşteri Adı</label>
+                    </div>
+                </div>
+                <div id="orderItems">
+                    <!-- Sipariş öğeleri buraya eklenecek -->
+                </div>
+                <div class="order-total">
+                    Toplam: <span id="orderTotal">0.00</span> ₺
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-light btn-flat">İptal</a>
+                <a href="#!" class="waves-effect waves-light btn" onclick="submitOrder()">Sipariş Ver</a>
+            </div>
+        </div>
+    </body>
+</html>
