@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Çalışan Paneli - Has Cafe & Restaurant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+
+    <!-- CSS -->
+    <link rel="shortcut icon" href="resimler/favicon.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <style>
+        :root {
+            --primary-color: #ffc107;
+            --dark-color: #212121;
+            --light-color: #ffffff;
+            --success-color: #4CAF50;
+            --error-color: #f44336;
+            --alert-color: #ffeb3b; /* Ünlem için sarı */
+        }
+
+        body {
+            background-color: var(--light-color);
+        }
+
+        nav {
+            background-color: var(--dark-color);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--dark-color);
+        }
+        .btn:hover {
+            background-color: #ffd54f;
+        }
+        .btn.red {
+            background-color: var(--error-color);
+            color: white;
+        }
+        .btn.red:hover {
+            background-color: #ef5350;
+        }
+         .btn.green {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .btn.green:hover {
+            background-color: #66bb6a;
+        }
+
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+             margin-bottom: 1rem;
+        }
+
+        .table-card {
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: var(--light-color);
+            border: 1px solid #e0e0e0;
+             position: relative;
+        }
+        .table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .table-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        .table-status {
+            font-size: 1rem;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .status-available {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .status-occupied {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        .brand-logo {
+            color: var(--primary-color) !important;
+            font-weight: 500;
+            font-size: 24px !important;
+        }
+
+        .section h4 {
+            color: var(--dark-color);
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .login-card {
+            margin-top: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .login-card .card-content {
+            padding: 40px;
+        }
+        .login-card .card-title {
+            color: var(--dark-color);
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+        .input-field input:focus {
+            border-bottom: 1px solid var(--primary-color) !important;
+            box-shadow: 0 1px 0 0 var(--primary-color) !important;
+        }
+        .input-field input:focus + label {
+            color: var(--primary-color) !important;
+        }
+        .card-action {
+            border-top: 1px solid #eeeeee !important;
+            padding: 20px 40px !important;
+        }
+        .card-action .btn { margin-right: 10px; }
+        .card-action .btn-flat { float: none; }
+
+        .preloader-wrapper { margin: 20px auto; display: block; }
+        .error-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: var(--error-color);
+        }
+        .table-number .alert-icon {
+            font-size: 1.5rem;
+            vertical-align: middle;
+            margin-left: 5px;
+            color: var(--alert-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .modal { max-width: 700px; }
+        .modal .modal-content { padding: 24px; }
+        .modal .modal-content h4 { margin-bottom: 20px; font-size: 1.8rem; }
+        .modal .modal-content h5 { font-size: 1.3rem; color: var(--primary-color); margin: 20px 0 15px 0; font-weight: 500; }
+        .modal .modal-footer { background-color: #fafafa; padding: 10px 24px; text-align: right; border-top: 1px solid #eee; }
+        .modal .modal-footer .btn, .modal .modal-footer .btn-flat { margin-left: 8px; }
+
+        .order-card { margin-bottom: 15px; border-left: 3px solid #eee; }
+        .order-card .card-content { padding: 15px; }
+        .order-card .card-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; }
+        .order-items h6 { margin: 10px 0 5px 0; font-weight: bold; font-size: 1rem; }
+        .order-total h6 { margin-top: 10px; font-weight: bold; text-align: right; font-size: 1.1rem; }
+        .order-actions { margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+        .order-actions .btn { padding: 0 15px; }
+        .order-actions .material-icons { vertical-align: middle; margin-right: 4px; font-size: 1.2rem; }
+        .order-actions p { margin: 0; padding: 5px 0; font-size: 0.9em; align-self: center; }
+        .highlight td, .highlight th { padding: 10px 5px; font-size: 0.9rem; }
+        .center-align p { margin-top: 15px; }
+
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="loginForm" class="container">
+         <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card login-card">
+                    <div class="card-content">
+                        <span class="card-title">Çalışan Girişi</span>
+                        <div class="row" style="margin-bottom: 0;">
+                            <div class="input-field col s12">
+                                <input id="username" type="text" class="validate">
+                                <label for="username">Kullanıcı Adı</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="password" type="password" class="validate">
+                                <label for="password">Şifre</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" onclick="employeeLogin()">
+                            <i class="material-icons left">login</i> Giriş Yap
+                        </button>
+                        <a href="index.html" class="btn-flat waves-effect">
+                            <i class="material-icons left">arrow_back</i> Ana Sayfa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Panel -->
+    <div id="employeePanel" style="display: none;">
+        <!-- Navbar -->
+         <nav class="navbar" style="margin-bottom: 20px;">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo">Çalışan Paneli</a>
+                <ul class="right">
+                    <li><span id="connectionStatus" style="margin-right: 15px; color: #bdbdbd; font-size: 0.8rem; vertical-align: middle;"></span></li>
+                    <li>
+                        <a href="#" onclick="employeeLogout()" class="waves-effect waves-light btn red">
+                            <i class="material-icons left">logout</i>Çıkış
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- Masa Durumu -->
+            <div class="section">
+                <h4>Masa Durumu <span id="lastUpdated" style="font-size: 0.8rem; color: #9e9e9e; float: right;"></span></h4>
+                <div class="row" id="tableStatus">
+                    <!-- Masalar dinamik olarak buraya gelecek -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Masa Detay Modal -->
+        <div id="tableDetailsModal" class="modal">
+            <div class="modal-content">
+                <h4 id="modalTableTitle">Masa Detayları</h4>
+                 <div id="tableOrders">
+                    <!-- Siparişler dinamik olarak buraya gelecek -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                 <button class="btn-flat waves-effect waves-green modal-close">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirim Sesi -->
+    <audio id="notificationSound" src="resimler/ding.mp3" preload="auto"></audio>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // --- Global Değişkenler ---
+        let pollingInterval = null;
+        let previousActiveOrderIds = {}; // Masaların önceki aktif sipariş ID'leri: { tableId: [activeOrderId1, ...], ... }
+        let unacknowledgedAlerts = {}; // Tıklanmamış uyarıları tutar: { tableId: true, ... }
+        const POLLING_INTERVAL_MS = 3000; // Yenileme aralığı (milisaniye)
+        let isPageVisible = !document.hidden; // Sayfa görünürlüğü durumu
+
+        // --- Yardımcı Fonksiyonlar ---
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            if (type === 'error') console.error(`[${timestamp}] ${message}`);
+            else if (type === 'warn') console.warn(`[${timestamp}] ${message}`);
+            else console.log(`[${timestamp}] ${message}`);
+        }
+
+        function showToast(message, type = 'info') {
+            let className = '';
+            if (type === 'success') className = 'green';
+            else if (type === 'error') className = 'red';
+            else if (type === 'warn') className = 'orange';
+            else className = 'blue darken-1';
+            M.toast({html: message, classes: className});
+        }
+
+        // --- Başlangıç ---
+        $(document).ready(function() {
+            log('Sayfa yüklendi.');
+            $('.modal').modal();
+            checkSession();
+            $('#password').keypress(function(e) { if (e.which == 13) employeeLogin(); });
+            document.addEventListener('visibilitychange', handleVisibilityChange, false);
+        });
+
+        // --- Sekme Görünürlüğü Kontrolü ---
+        function handleVisibilityChange() {
+            const previouslyVisible = isPageVisible;
+            isPageVisible = !document.hidden;
+            if (!previouslyVisible && isPageVisible) {
+                log('Sekme görünür.'); updateConnectionStatus('Active');
+                if (localStorage.getItem('employee') && !pollingInterval) {
+                     log('Polling yeniden başlatılıyor.'); loadTableStatus(false); startPolling();
+                } else if (localStorage.getItem('employee')) { log('Polling zaten aktif.'); }
+            } else if (previouslyVisible && !isPageVisible) {
+                log('Sekme gizlendi.'); updateConnectionStatus('Paused');
+            }
+        }
+
+        function updateConnectionStatus(status) {
+             const statusSpan = $('#connectionStatus');
+             statusSpan.text(`${status}`);
+             if(status === 'Active') statusSpan.css('color', 'var(--success-color)');
+             else if (status === 'Paused' || status === 'Stopped') statusSpan.css('color', '#bdbdbd');
+             else if (status === 'Error') statusSpan.css('color', 'var(--error-color)');
+        }
+
+        function updateLastUpdatedTime() {
+            $('#lastUpdated').text(`Son Güncelleme: ${new Date().toLocaleTimeString()}`);
+        }
+
+        // --- Oturum Yönetimi ---
+        function checkSession() {
+            log('Oturum kontrolü...');
+            const employee = JSON.parse(localStorage.getItem('employee'));
+            if (employee) { log('Oturum aktif.'); showEmployeePanel(); }
+            else { log('Oturum yok.'); hideEmployeePanel(); }
+        }
+
+        function employeeLogin() {
+            log('Giriş deneniyor...');
+            const username = $('#username').val(); const password = $('#password').val();
+            if (!username || !password) { showToast('Kullanıcı adı ve şifre gerekli!', 'warn'); return; }
+            const cacheBuster = `?_=${Date.now()}`;
+            fetch(`/api/employees${cacheBuster}`)
+                .then(response => { if (!response.ok) throw new Error(`API Hatası: ${response.status}`); return response.json(); })
+                .then(employees => {
+                    const employee = employees.find(e => e.username === username && e.password === password);
+                    if (employee) {
+                        log(`Giriş başarılı: ${employee.username}`);
+                        localStorage.setItem('employee', JSON.stringify(employee));
+                        showEmployeePanel(); showToast('Giriş başarılı!', 'success');
+                    } else { log('Giriş başarısız.'); showToast('Hatalı kullanıcı adı/şifre!', 'error'); }
+                })
+                .catch(error => { log(`Giriş hatası: ${error.message}`, 'error'); showToast(`Giriş hatası: ${error.message}`, 'error'); });
+        }
+
+        function employeeLogout() {
+             log('Çıkış yapılıyor...'); localStorage.removeItem('employee');
+             hideEmployeePanel(); showToast('Çıkış yapıldı.', 'info');
+        }
+
+        function showEmployeePanel() {
+             log('Panel gösteriliyor.'); $('#loginForm').hide(); $('#employeePanel').show();
+             previousActiveOrderIds = {}; unacknowledgedAlerts = {}; // Durumları sıfırla
+             loadTableStatus(true); startPolling();
+        }
+
+        function hideEmployeePanel() {
+             log('Panel gizleniyor.'); $('#employeePanel').hide(); $('#loginForm').show();
+             $('#username').val(''); $('#password').val('');
+             stopPolling(); previousActiveOrderIds = {}; unacknowledgedAlerts = {}; // Durumları sıfırla
+        }
+
+        // --- Polling ---
+        function startPolling() {
+            stopPolling();
+            if (isPageVisible) {
+                log(`Polling başlatılıyor (${POLLING_INTERVAL_MS / 1000}sn).`);
+                pollingInterval = setInterval(() => {
+                    if (isPageVisible && localStorage.getItem('employee')) { loadTableStatus(false); }
+                    else if (!isPageVisible) { /* Atla */ }
+                    else { log('Oturum yok, polling duruyor.'); stopPolling(); }
+                }, POLLING_INTERVAL_MS);
+                updateConnectionStatus('Active');
+            } else { log('Polling başlamadı (sekme gizli).'); updateConnectionStatus('Paused'); }
+        }
+
+        function stopPolling() {
+            if (pollingInterval) { log('Polling durduruluyor.'); clearInterval(pollingInterval); pollingInterval = null; updateConnectionStatus('Stopped'); }
+        }
+
+        // --- Sesli Bildirim ---
+        function playNotificationSound() {
+            log('Bildirim sesi.');
+            const sound = document.getElementById('notificationSound');
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().then(() => log('Ses çalındı.')).catch(error => {
+                    log(`Ses hatası: ${error.message}`, 'warn');
+                    if (error.name === 'NotAllowedError') showToast('Yeni sipariş! (Ses engellendi)', 'warn');
+                    else showToast('Yeni sipariş! (Ses hatası)', 'warn');
+                });
+            } else log('Ses elementi yok.', 'warn');
+        }
+
+        // --- Masa Durumu Yükleme ---
+          // --- Masa Durumu Yükleme ---
+          function loadTableStatus(isInitialLoad = false) {
+            const tableStatusDiv = $('#tableStatus');
+            const cacheBuster = `?_=${Date.now()}`;
+
+            if (isInitialLoad) {
+                log('İlk masa yüklemesi.');
+                tableStatusDiv.html('<div class="col s12 center-align"><div class="preloader-wrapper small active"><div class="spinner-layer spinner-yellow-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div><p>Masalar yükleniyor...</p></div>');
+            }
+
+            fetch(`/api/tables${cacheBuster}`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Masa API: ${response.status}`);
+                    return response.json();
+                })
+                .then(tables => {
+                    if (!tables || tables.length === 0) {
+                        tableStatusDiv.html('<div class="col s12 center-align"><p>Masa yok.</p></div>');
+                        previousActiveOrderIds = {}; // Önceki durumları sıfırla
+                        unacknowledgedAlerts = {}; // Uyarıları sıfırla
+                        return Promise.resolve([]); // Boş diziyle devam et
+                    }
+                    // Her masa için siparişleri kontrol et
+                    const orderCheckPromises = tables.map(table =>
+                        fetch(`/api/tables/${table.id}/orders${cacheBuster}`)
+                            .then(res => res.ok ? res.json() : Promise.resolve(null)) // Hata durumunda null dön
+                            .then(orders => {
+                                const allOrders = orders || []; // Hata durumunda boş dizi kullan
+
+                                // --- UYARI MANTIĞI İÇİN ---
+                                // Sadece AKTİF sipariş ID'lerini al (NEW veya IN_PROGRESS)
+                                const activeIds = allOrders
+                                    .filter(o => o.status === 'NEW' || o.status === 'IN_PROGRESS')
+                                    .map(o => o.id)
+                                    .sort((a, b) => a - b); // Karşılaştırma için sırala
+
+                                // --- DURUM MANTIĞI İÇİN ---
+                                // Masada herhangi bir sipariş (tamamlanmış dahil) var mı?
+                                const hasAnyOrder = allOrders.length > 0; // <<< YENİ KONTROL
+
+                                return {
+                                    ...table,
+                                    activeOrderIds: activeIds,          // Uyarılar için hala gerekli
+                                    hasAnyOrder: hasAnyOrder,           // Masa durumu (Dolu/Boş) için yeni flag
+                                    errorFetchingOrders: orders === null, // Sipariş çekme hatası var mı?
+                                };
+                            })
+                            .catch(err => {
+                                log(`Fetch Hatası (Masa ${table.id}): ${err.message}`, 'error');
+                                // Hata durumunda önceki bilinen aktif ID'leri koru
+                                // ve masayı 'hata var' + 'sipariş var' gibi gösterelim (tedbiren)
+                                return {
+                                    ...table,
+                                    activeOrderIds: previousActiveOrderIds[table.id] || [],
+                                    hasAnyOrder: true, // Hatada dolu gösterelim ki gözden kaçmasın
+                                    errorFetchingOrders: true,
+                                };
+                            })
+                    );
+                    return Promise.all(orderCheckPromises);
+                })
+                .then(tablesWithOrderData => {
+                    let html = '';
+                    let playSound = false;
+                    const currentActiveOrderIds = {}; // Bu poll için AKTİF ID'leri tut (uyarılar için)
+
+                    tablesWithOrderData.sort((a, b) => a.tableNumber - b.tableNumber); // Masaları numarasına göre sırala
+
+                    tablesWithOrderData.forEach(table => {
+                        const currentActiveIds = table.activeOrderIds; // Bu masa için şimdiki AKTİF sipariş ID'leri (UYARI İÇİN)
+                        const tableId = table.id;
+                        currentActiveOrderIds[tableId] = currentActiveIds; // Güncel aktif durumu kaydet (bir sonraki uyarı kontrolü için)
+
+                        // --- UYARI MANTIĞI (Değişmedi) ---
+                        // Önceki AKTİF sipariş ID'lerini al (yoksa null)
+                        const previousIds = previousActiveOrderIds.hasOwnProperty(tableId) ? previousActiveOrderIds[tableId] : null;
+                        let newActiveOrderFound = false;
+                        if (previousIds !== null && !isInitialLoad) {
+                             // Şimdiki aktif ID'lerden hangileri öncekinde yoktu?
+                            const newlyAddedActiveIds = currentActiveIds.filter(id => !previousIds.includes(id));
+                            if (newlyAddedActiveIds.length > 0) {
+                                newActiveOrderFound = true; // Yeni aktif sipariş bulundu
+                            }
+                        }
+                         // Eğer yeni bir aktif sipariş bulunduysa, uyarıyı ayarla ve sesi tetikle
+                        if (newActiveOrderFound) {
+                            log(`Yeni/Güncellenmiş AKTİF sipariş: Masa ${table.tableNumber}`);
+                            unacknowledgedAlerts[tableId] = true; // Bu masaya tıklanana kadar uyarı göster
+                            playSound = true; // Sesi çal (bir kere)
+                        }
+                        const showAlert = unacknowledgedAlerts[tableId] === true; // Uyarı ikonu gösterilecek mi?
+
+                        // --- MASA DURUMU MANTIĞI (Değişti) ---
+                        // Masa dolu mu? (Herhangi bir sipariş varsa evet)
+                        const tableIsOccupied = table.hasAnyOrder; // <<< YENİ FLAG KULLANILIYOR
+                        const statusClass = tableIsOccupied ? 'status-occupied' : 'status-available';
+                        const statusText = tableIsOccupied ? 'Sipariş Var' : 'Müsait'; // "Dolu" yerine "Sipariş Var" daha açıklayıcı olabilir
+
+                        // Uyarı ve hata ikonları için HTML
+                        const alertIconHtml = showAlert ? `<i class="material-icons tiny alert-icon" title="Yeni/Güncellenmiş Sipariş!">priority_high</i>` : '';
+                        const errorIconHtml = table.errorFetchingOrders ? `<i class="material-icons tiny error-icon" title="Sipariş verisi alınamadı!">error_outline</i>` : '';
+
+                        // Masa kartı HTML'ini oluştur
+                        html += `
+                            <div class="col s12 m6 l4">
+                                <div class="card table-card" id="table-card-${tableId}" onclick="showTableDetails(${tableId})">
+                                    ${errorIconHtml}
+                                    <div class="table-number">
+                                        Masa ${table.tableNumber}
+                                        <span class="table-alert-icon-container">${alertIconHtml}</span>
+                                    </div>
+                                    <div class="table-status ${statusClass}">${statusText}</div>
+                                </div>
+                            </div>`;
+                    });
+
+                    // Oluşturulan HTML'i sayfaya ekle
+                    tableStatusDiv.html(html || '<div class="col s12 center-align"><p>Masa yok.</p></div>');
+
+                    // Bu poll'deki aktif ID'leri bir sonraki karşılaştırma için sakla
+                    previousActiveOrderIds = currentActiveOrderIds;
+
+                    // Eğer ses çalınacaksa ve ilk yükleme değilse sesi çal
+                    if (playSound && !isInitialLoad) {
+                        playNotificationSound();
+                    }
+
+                    updateLastUpdatedTime(); // Son güncelleme zamanını göster
+                })
+                .catch(error => {
+                    log(`Masa yükleme hatası: ${error.message}`, 'error');
+                    tableStatusDiv.html('<div class="col s12 center-align red-text"><i class="material-icons left">warning</i>Masa durumu yüklenemedi!</div>');
+                    updateConnectionStatus('Error'); // Bağlantı durumunu hata olarak ayarla
+                });
+        }
+
+
+        // --- Modal İşlemleri ---
+        function showTableDetails(tableId) {
+            log(`Detaylar: Masa ${tableId}`);
+            const modal = M.Modal.getInstance($('#tableDetailsModal'));
+            const modalTitle = $('#modalTableTitle');
+            const tableOrdersDiv = $('#tableOrders');
+
+            // --- Masaya Tıklandığında Uyarıyı Temizle ---
+            if (unacknowledgedAlerts[tableId]) {
+                log(`Uyarı temizleniyor: Masa ${tableId}.`);
+                unacknowledgedAlerts[tableId] = false; // Uyarıyı görüldü olarak işaretle
+                // DOM'dan ikonu hemen kaldır
+                const iconContainer = $(`#table-card-${tableId} .table-alert-icon-container`);
+                if (iconContainer) {
+                    iconContainer.empty(); // İkonu içeren span'ın içini boşalt
+                } else {
+                    log(`Uyarı ikonu konteyneri bulunamadı: #table-card-${tableId} .table-alert-icon-container`, 'warn');
+                }
+            }
+            // -------------------------------------------
+
+            modalTitle.text(`Masa ${tableId} Detayları`);
+            tableOrdersDiv.html('<div class="center-align p-3"><div class="preloader-wrapper small active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div><p>Yükleniyor...</p></div>');
+            modal.open();
+            loadOrdersForModal(tableId); // Siparişleri yükle
+        }
+
+        function loadOrdersForModal(tableId) {
+             const tableOrdersDiv = $('#tableOrders'); const cacheBuster = `?_=${Date.now()}`;
+             log(`Modal siparişleri yükleniyor (Masa ${tableId})`);
+
+            fetch(`/api/tables/${tableId}/orders${cacheBuster}`)
+                .then(response => { if (!response.ok) throw new Error(`Modal API Hatası: ${response.status}`); return response.json(); })
+                .then(orders => {
+                    log(`Modal için ${orders ? orders.length : 0} sipariş alındı (Masa ${tableId}).`);
+                    let ordersHtml = '';
+                    (orders || []).sort((a, b) => (b.id || 0) - (a.id || 0)); // En yeni sipariş üste gelsin
+
+                    // Uyarı mekanizması unacknowledgedAlerts ile yönetildiği için
+                    // burada previousActiveOrderIds'i güncellemeye gerek yok.
+
+                    if (orders && orders.length > 0) {
+                        ordersHtml += '<h5>Siparişler</h5>';
+                        orders.forEach(order => {
+                            const orderId = order.id || 'N/A';
+                            const customerName = order.customerName || 'Bilinmiyor';
+                            const statusText = getStatusText(order.status);
+                            const waiterName = order.waiterName;
+                            const totalPrice = (order.totalPrice || 0).toFixed(2);
+                            const orderItems = order.orderItems || [];
+                            ordersHtml += `
+                                <div class="card order-card">
+                                    <div class="card-content">
+                                        <span class="card-title">Sipariş #${orderId}</span>
+                                        <p>Müşteri: ${customerName}</p>
+                                        <p>Durum: ${statusText}</p>
+                                        ${waiterName ? `<p>Garson: ${waiterName}</p>` : ''}
+                                        <div class="order-items">
+                                            <h6>Sipariş Edilen Ürünler:</h6>
+                                            ${orderItems.length > 0 ? `
+                                                <table class="striped highlight">
+                                                    <thead><tr><th>Ürün</th><th>Adet</th><th>Fiyat</th><th>Toplam</th></tr></thead>
+                                                    <tbody>${orderItems.map(item => `
+                                                        <tr><td>${item.itemName||'?'}</td><td>${item.quantity||0}</td><td>${(item.price||0).toFixed(2)}₺</td><td>${((item.price||0)*(item.quantity||0)).toFixed(2)}₺</td></tr>`).join('')}
+                                                    </tbody>
+                                                </table>` : '<p>Sipariş detayları bulunamadı</p>'}
+                                        </div>
+                                        <div class="order-total">
+                                            <h6>Toplam Tutar: ${totalPrice} ₺</h6>
+                                        </div>
+                                        <div class="order-actions">
+                                            ${getOrderActionButton(order, tableId)}
+                                            <button class="btn waves-effect waves-light red" onclick="deleteOrder(${orderId}, ${tableId})" ${typeof orderId !== 'number' || orderId <= 0 ? 'disabled' : ''}>
+                                                <i class="material-icons left">delete</i>
+                                                Siparişi Sil
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        });
+                    } else { ordersHtml = '<p>Bu masada henüz sipariş bulunmamaktadır.</p>'; }
+                    tableOrdersDiv.html(ordersHtml);
+                })
+                .catch(error => {
+                    log(`Modal yükleme hatası: ${error.message}`, 'error');
+                    tableOrdersDiv.html(`<p class="red-text">Siparişler yüklenirken bir hata oluştu!</p>`);
+                });
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'NEW': return 'Yeni Sipariş';
+                case 'IN_PROGRESS': return 'Hazırlanıyor';
+                case 'COMPLETED': return 'Tamamlandı';
+                default: return status || 'Bilinmiyor';
+            }
+        }
+
+        function getOrderActionButton(order, tableId) {
+            const employee = JSON.parse(localStorage.getItem('employee'));
+            if (!employee || !order || typeof order.id !== 'number' || order.id <= 0) return '';
+
+            switch(order.status) {
+                case 'NEW':
+                    return `<button class="btn waves-effect waves-light" onclick="takeOrder(${order.id}, ${tableId})"><i class="material-icons left">assignment_turned_in</i>Siparişi Al</button>`;
+                case 'IN_PROGRESS':
+                    // Siparişi alan kişiyle mevcut çalışan aynıysa Tamamla butonu göster
+                    if (order.waiterName === employee.name) {
+                        return `<button class="btn waves-effect waves-light green" onclick="completeOrder(${order.id}, ${tableId})"><i class="material-icons left">check</i>Siparişi Tamamla</button>`;
+                    }
+                    // Başka bir garson aldıysa bilgi ver
+                    return `<p class="orange-text text-darken-1" style="font-weight:500;"><i class="material-icons left tiny">info_outline</i>${order.waiterName || '?'} tarafından alındı</p>`;
+                case 'COMPLETED':
+                    // Tamamlanmışsa bilgi ver
+                    return `<p class="green-text text-darken-1" style="font-weight:500;"><i class="material-icons left tiny">check_circle</i>Sipariş tamamlandı</p>`;
+                default: return '';
+            }
+        }
+
+        // --- Sipariş Aksiyonları ---
+        function takeOrder(orderId, tableId) {
+            const employee = JSON.parse(localStorage.getItem('employee')); if (!employee) { showToast('Lütfen giriş yapın!', 'error'); return; }
+            log(`Sipariş alınıyor: ${orderId} (Masa ${tableId}) Garson: ${employee.name}`);
+            fetch(`/api/orders/${orderId}/take`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ waiterName: employee.name, status: 'IN_PROGRESS' }) })
+            .then(response => { if (!response.ok) throw new Error(`Alınamadı: ${response.status}`); return response.status !== 204 ? response.json() : null; })
+            .then(() => {
+                showToast(`Sipariş #${orderId} alındı!`, 'success');
+                 // Modal açıksa ve doğru masayı gösteriyorsa modalı yenile
+                if ($('#tableDetailsModal').hasClass('open') && $('#modalTableTitle').text().includes(`Masa ${tableId}`)) loadOrdersForModal(tableId);
+                loadTableStatus(false); // Masa durumunu yeniden yükle (ilk yükleme değil)
+            })
+            .catch(error => { log(`Sipariş alma hatası (${orderId}): ${error.message}`, 'error'); showToast(`Sipariş alma hatası: ${error.message}`, 'error'); });
+        }
+
+        function completeOrder(orderId, tableId) {
+             log(`Sipariş tamamlanıyor: ${orderId} (Masa ${tableId})`);
+             fetch(`/api/orders/${orderId}/complete`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ status: 'COMPLETED' }) })
+            .then(response => { if (!response.ok) throw new Error(`Tamamlanamadı: ${response.status}`); return response.status !== 204 ? response.json() : null; })
+            .then(() => {
+                showToast(`Sipariş #${orderId} tamamlandı!`, 'success');
+                 // Modal açıksa ve doğru masayı gösteriyorsa modalı yenile
+                if ($('#tableDetailsModal').hasClass('open') && $('#modalTableTitle').text().includes(`Masa ${tableId}`)) loadOrdersForModal(tableId);
+                loadTableStatus(false); // Masa durumunu yeniden yükle (ilk yükleme değil)
+            })
+            .catch(error => { log(`Sipariş tamamlama hatası (${orderId}): ${error.message}`, 'error'); showToast(`Sipariş tamamlama hatası: ${error.message}`, 'error'); });
+        }
+
+        function deleteOrder(orderId, tableId) {
+             if (typeof orderId !== 'number' || orderId <= 0) { showToast('Geçersiz Sipariş ID!', 'error'); return; }
+             log(`Sipariş siliniyor: ${orderId} (Masa ${tableId})`);
+            if (!confirm(`Sipariş #${orderId} kalıcı olarak silinecek. Emin misiniz?`)) { log('Silme iptal.'); return; }
+            fetch(`/api/orders/${orderId}`, { method: 'DELETE' })
+            .then(response => { if (!response.ok) { return response.text().then(text => { throw new Error(`Silinemedi: ${response.status} ${text||''}`) }); } return true; })
+            .then(() => {
+                showToast(`Sipariş #${orderId} silindi!`, 'success');
+                 // Modal açıksa ve doğru masayı gösteriyorsa modalı yenile
+                if ($('#tableDetailsModal').hasClass('open') && $('#modalTableTitle').text().includes(`Masa ${tableId}`)) loadOrdersForModal(tableId);
+                loadTableStatus(false); // Masa durumunu yeniden yükle (ilk yükleme değil)
+            })
+            .catch(error => { log(`Sipariş silme hatası (${orderId}): ${error.message}`, 'error'); showToast(`Sipariş silme hatası: ${error.message}`, 'error'); });
+        }
+    </script>
+</body>
+</html>
