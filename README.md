@@ -1,68 +1,88 @@
-# Has MS - Restaurant Management System
+# 🥗 Has MS - Restoran Yönetim Sistemi
 
-**Has MS** is a comprehensive Restaurant Management System built with Java Spring Boot. It is designed to streamline restaurant operations, managing everything from order processing to inventory management.
+Selamlar! 👋 **Has MS**'e hoş geldiniz!
 
-## 🚀 Technologies Used
+Burası, restoran işletmeciliğini keyifli ve zahmetsiz hale getirmek için tasarlanmış, **Spring Boot** tabanlı modern bir restoran yönetim sistemidir. Siparişlerden envanter takibine kadar her şeyi tek bir yerden yönetmenize olanak tanır. Restoranınızı dijital çağa taşıyın! ✨
 
-- **Java 17**: Core programming language.
-- **Spring Boot 3.2.1**: Framework for building the application.
-  - `spring-boot-starter-web`: Building web applications, including RESTful applications.
-  - `spring-boot-starter-data-jpa`: Persisting data in SQL stores with Java Persistence API using Spring Data and Hibernate.
-- **MySQL**: Relational database management system (`mysql-connector-j` driver).
-- **Maven**: Dependency management and build tool.
+## 🌟 Proje Hakkında
 
-## 🛠️ Prerequisites
+**Has MS**, restoran sahiplerinin ve çalışanlarının hayatını kolaylaştırmak için geliştirildi. Karmaşık excel tablolarından, kağıt adisyonlardan kurtulun. Hızlı, güvenilir ve kullanıcı dostu arayüzü ile restoranınızı yönetmek artık çok daha eğlenceli! 🚀
 
-Before you begin, ensure you have met the following requirements:
+### Özellikler (Gelecek Planları & Mevcut Durum)
+- 📝 **Kolay Sipariş Yönetimi:** Siparişleri anlık takip edin.
+- 📦 **Stok Takibi:** Malzemeleriniz bitmeden haberiniz olsun.
+- 📊 **Raporlama:** Günlük, haftalık satışlarınızı grafiklerle izleyin.
+- 👨‍🍳 **Personel Yönetimi:** Ekibinizi ve vardiyalarını düzenleyin.
 
-- **Java Development Kit (JDK) 17** or later installed.
-- **Maven** installed (or use the provided `mvnw` wrapper if available).
-- **MySQL Server** installed and running.
+## 💻 Teknolojiler Kulesi
 
-## ⚙️ Installation & Setup
+Bu harika projeyi ayağa kaldıran yapı taşları şunlar:
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/HasCafe/Has-MS.git
-   cd Has-MS
-   ```
+- **☕ Java 17:** Projenin kalbi, güçlü ve güvenilir.
+- **🍃 Spring Boot 3.2.1:** Modern ve hızlı geliştirme için sihirli değneğimiz.
+  - `spring-boot-starter-web`: Web dünyasına açılan kapımız.
+  - `spring-boot-starter-data-jpa`: Veritabanı ile konuşan rehberimiz.
+- **🐬 MySQL:** Verilerinizi güvenle saklayan hafızamız.
+- **🛠️ Maven:** Projemizin mimarı, bağımlılık yöneticisi.
 
-2. **Configure the Database**
-   - Create a MySQL database (e.g., `has_ms_db`).
-   - Update `src/main/resources/application.properties` (or `application.yml`) with your database credentials:
-     ```properties
-     spring.datasource.url=jdbc:mysql://localhost:3306/has_ms_db
-     spring.datasource.username=your_username
-     spring.datasource.password=your_password
-     spring.jpa.hibernate.ddl-auto=update
-     ```
+## 🏃‍♂️ Kurulum ve Çalıştırma Rehberi
 
-3. **Build the Application**
-   ```bash
-   mvn clean install
-   ```
+Hadi projeyi kendi bilgisayarınızda çalıştıralım! 🛠️
 
-4. **Run the Application**
-   ```bash
-   mvn spring-boot:run
-   ```
+### Gereksinimler
+Bilgisayarınızda şunların yüklü olduğundan emin olun:
+- **JDK 17** veya üzeri ☕
+- **MySQL** (Veritabanı için) 🗄️
+- **Maven** (Derlemek için) 🏗️
 
-   Alternatively, you can run the generated JAR file:
-   ```bash
-   java -jar target/restaurant-1.0-SNAPSHOT.jar
-   ```
+### Adım Adım Kurulum 👣
 
-## 📝 Usage
+1.  **Projeyi Klonlayın** 👯
+    Terminalinizi açın ve şu komutu yapıştırın:
+    ```bash
+    git clone https://github.com/HasCafe/Has-MS.git
+    cd Has-MS
+    ```
 
-Once the application is running, you can access the API or Web Interface (depending on implementation) typically at:
-`http://localhost:8080`
+2.  **Veritabanı Ayarlarını Yapın** ⚙️
+    MySQL'de `has_ms_db` adında boş bir veritabanı oluşturun.
+    Ardından `src/main/resources/application.properties` dosyasını açıp kendi şifrenizi girin:
 
-## 🤝 Contributing
+    ```properties
+    spring.datasource.url=jdbc:mysql://localhost:3306/has_ms_db
+    spring.datasource.username=root
+    spring.datasource.password=sizin_sifreniz
+    spring.jpa.hibernate.ddl-auto=update
+    ```
 
-Contributions are welcome! Please follow these steps:
+3.  **Projeyi Derleyin** 🔨
+    ```bash
+    mvn clean install
+    ```
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Open a Pull Request.
+4.  **Uygulamayı Başlatın** ▶️
+    ```bash
+    mvn spring-boot:run
+    ```
+    *Veya JAR dosyası ile:*
+    ```bash
+    java -jar target/restaurant-1.0-SNAPSHOT.jar
+    ```
+
+5.  **Tadaa! 🎉**
+    Tarayıcınızı açın ve `http://localhost:8080` adresine gidin.
+
+## 🤝 Katkıda Bulunmak İster misiniz?
+
+Bu projeyi daha da güzelleştirmek isterseniz çok mutlu oluruz!
+
+1.  Projeyi Fork'layın 🍴
+2.  Yeni bir Branch açın (`git checkout -b feature/harika-ozellik`)
+3.  Değişikliklerinizi yapın ve Commit'leyin (`git commit -m 'Harika bir özellik ekledim'`) 📝
+4.  Branch'inizi Push'layın (`git push origin feature/harika-ozellik`) 🚀
+5.  Bir Pull Request oluşturun 👀
+
+---
+
+Sevgiyle kodlandı ❤️
+Has MS Ekibi
