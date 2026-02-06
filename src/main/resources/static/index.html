@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Has Cafe & Restaurant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+
+    <!-- CSS -->
+    <link rel="shortcut icon" href="resimler/favicon-v2.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=3">
+
+
+    <style>
+      /* ... diğer stilleriniz ... */
+
+      #productList .card-image img {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 8px;
+      }
+
+      .tabs .tab {
+          min-width: 120px;
+          text-align: center;
+      }
+
+      .tabs .tab a {
+          font-size: 16px;
+          white-space: nowrap;
+      }
+
+      @media screen and (max-width: 600px) {
+          .tabs.tabs-fixed-width {
+              display: flex;
+              overflow-x: auto;
+              -webkit-overflow-scrolling: touch;
+          }
+          .tabs .tab {
+              flex: 0 0 auto;
+          }
+          #callWaiterBtn {
+        margin-left: 0;
+        margin-right: auto;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        display: block;
+        width: 90%; /* Genişliği artır, sağa taşmasını engelle */
+        max-width: 300px;
+    }
+
+    .right-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Buton sola yaslansın */
+        gap: 5px;
+    }
+
+
+      }
+
+      .slide-container {
+          position: relative;
+          width: 100%;
+          height: 100vh;
+          overflow: hidden;
+      }
+
+      .slide-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+
+      .caption {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 2;
+          width: 90%;
+          max-width: 500px;
+      }
+
+      .caption-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
+
+      .caption-glass {
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          padding: 25px 35px;
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          text-align: center;
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+          margin-bottom: 15px; /* Add some space below the glass effect */
+      }
+
+      .caption-glass h2 {
+          margin: 0;
+          color: #ffffff;
+          font-size: 2.5rem;
+          font-weight: 700;
+          letter-spacing: 1px;
+          margin-bottom: 15px;
+          text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      }
+
+      .caption-glass h5 {
+          margin: 0;
+          color: #f0f0f0;
+          font-size: 1.2rem;
+          font-weight: 300;
+          margin-bottom: 10px;
+          text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+      }
+
+      /* --- YENİ/GÜNCELLENMİŞ STİLLER BAŞLANGICI --- */
+      .scroll-down {
+          /* margin-top: 15px; -- Bu margin-bottom caption-glass'a eklendi */
+          text-align: center;
+          color: #ffffff;
+          font-size: 1rem;
+          font-weight: 400;
+          /* Arka plan banner */
+          background-color: rgba(0, 0, 0, 0.65); /* Yarı saydam siyah */
+          padding: 8px 30px; /* Üst/alt ve sağ/sol boşluklar */
+          border-radius: 20px; /* Yuvarlak köşeler */
+          display: inline-block; /* İçeriğe göre boyutlanmasını sağlar */
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* İsteğe bağlı gölge */
+      }
+
+      .scroll-down span {
+           display: block; /* Metnin kendi satırında olmasını sağlar */
+           margin-bottom: 2px; /* Metin ve ok arasına küçük boşluk */
+      }
+
+      .scroll-down .arrow {
+          font-size: 1.8rem; /* Ok boyutunu biraz ayarlayabiliriz */
+          /* margin-top: 5px; -- Artık span'daki margin-bottom ile ayarlanıyor */
+          animation: bounce 2s infinite;
+          line-height: 1; /* Okun dikey hizalamasını iyileştirir */
+          display: block; /* Okun kendi satırında olmasını sağlar */
+      }
+      /* --- YENİ/GÜNCELLENMİŞ STİLLER SONU --- */
+
+
+      /* Fade-in Animasyonu */
+      .animate-fade {
+          opacity: 0;
+          animation: fadeIn 1.5s ease forwards;
+      }
+
+      @keyframes fadeIn {
+          to {
+              opacity: 1;
+          }
+      }
+
+      @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+              transform: translateY(0);
+          }
+          40% {
+              transform: translateY(5px);
+          }
+          60% {
+              transform: translateY(3px);
+          }
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+          .caption-glass h2 {
+              font-size: 2rem;
+          }
+          .caption-glass h5 {
+              font-size: 1rem;
+          }
+           .scroll-down {
+              padding: 6px 20px; /* Mobilde biraz daha küçük padding */
+              font-size: 0.9rem;
+          }
+          .scroll-down .arrow {
+              font-size: 1.5rem;
+          }
+      }
+      #floating-cart i.material-icons {
+    font-size: 24px;
+    color: #333;
+    position: relative;
+}
+
+#floating-cart {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 999;
+    background: white;
+    border-radius: 50%;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+}
+#floating-cart:hover {
+    transform: scale(1.1);
+}
+
+#floating-cart:hover {
+    transform: scale(1.1); /* Üzerine gelince biraz büyüsün */
+}
+
+#callWaiterBtn {
+    margin-left: 10px;
+}
+    </style>
+</head>
+<body>
+<!-- Penguen Butonu -->
+<button id="penguin-button" onclick="toggleChat()">
+    <img src="resimler/pengo.png" alt="Mini Şef Penguen">
+</button>
+
+<!-- Chatbot Kutusu -->
+<div id="chatbot-container">
+    <div id="chatbot-header">
+        Mini Şef Yardımcı 🐧
+        <button class="close-btn" onclick="closeChat()">&times;</button>
+    </div>
+
+    <div id="chat-messages">
+        <div class="chat-bubble">Ne arıyorsun? 🍽️</div>
+    </div>
+    <div id="chat-options">
+        <button class="chat-option" onclick="choose('Yemek')">Yemek</button>
+        <button class="chat-option" onclick="choose('İçecek')">İçecek</button>
+    </div>
+</div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="container">
+        <div class="left-panel">
+            <a href="#" data-target="slide-out-left" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+        <div class="cafe-name">
+            <a href="index.html" class="logo"><h1>Has Cafe & Restaurant</h1></a>
+        </div>
+        <div class="right-panel">
+            <!-- Masaüstü için tam yazılı buton -->
+<button id="callWaiterBtn" class="btn hide-on-small-only">
+    Garson Çağır 🛎️
+</button>
+
+<!-- Mobil için ikon buton -->
+<button id="callWaiterBtnMobile" class="btn-floating yellow darken-2 hide-on-med-and-up">
+    <i class="material-icons">notifications_active</i>
+</button>
+            <a href="#" data-target="slide-out-right" class="sidenav-trigger" id="floating-cart">
+                <i class="material-icons">shopping_cart</i>
+                <span class="cart-count" style="display: none;">0</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Sol panel -->
+<div class="left-panel">
+    <ul id="slide-out-left" class="sidenav">
+        <li><a href="employee-panel.html"><i class="fa fa-user"></i>Çalışan Girişi</a></li>
+        <li><a href="admin.html"><i class="fa fa-user-shield"></i>Yönetici Girişi</a></li>
+        <li><a href="contact.html"><i class="fa fa-envelope"></i>İletişim</a></li>
+    </ul>
+</div>
+
+<!-- Sağ panel (Sepet) -->
+<div id="cart-panel" class="cart-panel">
+    <div class="cart-header">
+        <h5>Sepetim</h5>
+        <a href="#" class="close-cart"><i class="material-icons">close</i></a>
+    </div>
+    <div class="cart-content">
+        <!-- Sepet içeriği buraya gelecek -->
+    </div>
+</div>
+
+<!-- Overlay -->
+<div id="cart-overlay" class="cart-overlay"></div>
+
+<!-- Slider Başlangıç -->
+<!-- Carousel Başlangıç -->
+<!-- Carousel Başlangıç -->
+<!-- Carousel Başlangıç -->
+<!-- Carousel Başlangıç -->
+<div class="carousel carousel-slider center">
+    <a class="carousel-item" href="#one!">
+      <div class="slide-container">
+        <img src="resimler/pexels-zehra-aynaci-236637804-28533718.jpg" alt="Lezzetli Kahveler" class="slide-image">
+        <div class="caption center-align">
+          <div class="caption-content animate-fade">
+            <div class="caption-glass">
+              <h2>Has Kafe'ye Hoş Geldiniz!</h2>
+              <h5>En güzel kahveler, en özel anlar burada başlıyor.</h5>
+            </div>
+            <div class="scroll-down">
+              <span>Menü için kaydırınız</span>
+              <div class="arrow">↓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  
+    <a class="carousel-item" href="#two!">
+      <div class="slide-container">
+        <img src="resimler/pexels-wendywei-2813132.jpg" alt="Keyifli Atmosfer" class="slide-image">
+        <div class="caption left-align">
+          <div class="caption-content animate-fade">
+            <div class="caption-glass">
+              <h2>Keyifli Atmosfer</h2>
+              <h5>Sıcak, samimi ve unutulmaz bir ortam sizi bekliyor.</h5>
+            </div>
+            <div class="scroll-down">
+              <span>Menü için kaydırınız</span>
+              <div class="arrow">↓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  
+    <a class="carousel-item" href="#three!">
+      <div class="slide-container">
+        <img src="resimler/pexels-viktoria-alipatova-1083711-2074130.jpg" alt="Leziz Tatlar" class="slide-image">
+        <div class="caption right-align">
+          <div class="caption-content animate-fade">
+            <div class="caption-glass">
+              <h2>Leziz Tatlar</h2>
+              <h5>Özenle hazırlanan menümüzle damağınız şenlenecek.</h5>
+            </div>
+            <div class="scroll-down">
+              <span>Menü için kaydırınız</span>
+              <div class="arrow">↓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  
+  <!-- Carousel Bitiş -->
+  <!-- Slider Bitiş -->
+
+
+<!-- Menu -->
+<div class="menu">
+    <div class="container">
+        <!-- *** BURAYA text-align: center; EKLE *** -->
+        <div class="app-title" style="text-align: center;">
+            <h4 style="font-size: 28px; font-weight: bold; margin-bottom: 0.5rem;">Menümüz</h4>
+            <!-- ul için flex/center iyi, padding:0 kalabilir -->
+            <ul class="line" style="display: inline-flex; /* veya flex */ justify-content: center; padding: 0; list-style: none; margin-top: 0;">
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li class="line-center"><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+            </ul>
+        </div>
+
+        <div class="categories">
+            <div class="row">
+                <div class="col s12">
+                    <ul id="categoryTabs" class="tabs">
+                        <li class="tab">
+                            <a class="active" href="#loading">Yükleniyor...</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="loading" class="col s12 center-align">
+                    <!-- Yükleniyor yazısını kaldırmışsın, istersen geri ekleyebilirsin -->
+                    <!-- <p>Kategoriler yükleniyor...</p> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="productList" class="row">
+                <!-- Ürünler buraya yüklenecek -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Open Hours -->
+<div class="open-hours">
+    <div class="container">
+        <div class="app-title">
+            <h4>Çalışma Saatlerimiz</h4>
+            <ul class="line">
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li class="line-center"><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+            </ul>
+        </div>
+        <div class="entry">
+            <h5>Haftaiçi</h5>
+            <h6>09:00 - 22:00</h6>
+            <div class="dividing"></div>
+            <h5>Haftasonu</h5>
+            <h6>10:00 - 23:00</h6>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <h6>Sosyal Medya</h6>
+        <ul class="icon-social">
+            <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li class="google"><a href="#"><i class="fa fa-google"></i></a></li>
+            <li class="instagram"><a href="#"><i class="fa fa-instagram"></i></a></li>
+            <li class="rss"><a href="#"><i class="fa fa-rss"></i></a></li>
+        </ul>
+
+        <div class="tel-fax-mail">
+            <ul>
+                <li><span>Tel:</span> +90 123 456 7890</li>
+                <li><span>Faks:</span> +90 123 456 7890</li>
+                <li><span>Email:</span> info@hasrestaurant.com</li>
+            </ul>
+        </div>
+
+        <div class="ft-bottom">
+            <span>Copyright © 2024 Has Restaurant</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/script.js"></script>
+<script src="js/custom.js?v=2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1) Carousel init
+      var carouselElems = document.querySelectorAll('.carousel.carousel-slider');
+      M.Carousel.init(carouselElems, {
+        fullWidth: true,
+        indicators: true
+      });
+  
+      // 2) Otomatik kaydırma (5000 ms = 5 saniye)
+      setInterval(function() {
+        var instance = M.Carousel.getInstance(carouselElems[0]);
+        instance.next();
+      }, 5000);
+  
+      // 3) Geri kalan init'leriniz
+      var leftSidenav = document.querySelectorAll('#slide-out-left');
+      M.Sidenav.init(leftSidenav, {
+        edge: 'left',
+        draggable: true,
+        preventScrolling: true
+      });
+      var tabs = document.querySelectorAll('.tabs');
+      M.Tabs.init(tabs);
+      var selects = document.querySelectorAll('select');
+      M.FormSelect.init(selects);
+      var modals = document.querySelectorAll('.modal');
+      M.Modal.init(modals);
+      setTimeout(loadMenuCategories, 100);
+    });
+  </script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const masaNo = urlParams.get('masa');
+
+        if (masaNo) {
+            console.log('Yeni QR okundu, sepet temizleniyor.');
+            localStorage.removeItem('cart'); // Her zaman sepeti temizle
+            localStorage.setItem('masaNo', masaNo); // Yeni masa kaydet
+            console.log('QR ile masa seçildi:', masaNo);
+        }
+    });
+</script>
+
+<div id="orderForm" class="modal">
+    <div class="modal-content">
+        <h4>Sipariş Ver</h4>
+        <div class="row">
+            <div class="input-field col s12">
+                <select id="tableSelect" required>
+                    <option value="" disabled selected>Masa Seçiniz</option>
+                </select>
+                <label>Masa Seçimi</label>
+            </div>
+            <div class="input-field col s12">
+                <input id="customerName" type="text" class="validate" required>
+                <label for="customerName">Müşteri Adı</label>
+            </div>
+        </div>
+        <div id="orderItems">
+            <!-- Sipariş öğeleri buraya eklenecek -->
+        </div>
+        <div class="order-total">
+            Toplam: <span id="orderTotal">0.00</span> ₺
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">İptal</a>
+        <a href="#!" class="waves-effect waves-light btn" onclick="submitOrder()">Sipariş Ver</a>
+    </div>
+</div>
+
+<div id="callWaiterModal" class="modal">
+    <div class="modal-content">
+        <h4>Garson Çağır</h4>
+        <p>Lütfen çağırma sebebini seçin:</p>
+        <div class="row">
+            <div class="col s12">
+                <button class="btn waves-effect waves-light full-width" onclick="callWaiter('Sipariş Vermek İstiyorum')">
+                    <i class="material-icons left">restaurant_menu</i>Sipariş Vermek İstiyorum
+                </button>
+            </div>
+            <div class="col s12">
+                <button class="btn waves-effect waves-light full-width" onclick="callWaiter('Ödeme Yapmak İstiyorum')">
+                    <i class="material-icons left">payment</i>Ödeme Yapmak İstiyorum
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chatMessages = document.getElementById('chat-messages');
+    const chatOptions = document.getElementById('chat-options');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    let state = {};
+
+    function toggleChat() {
+        const isVisible = chatbotContainer.style.display === 'block';
+        if (isVisible) {
+            closeChat();
+        } else {
+            resetChat();
+            chatbotContainer.style.display = 'block';
+        }
+    }
+
+    function resetChat() {
+        chatMessages.innerHTML = '<div class="chat-bubble">Merhaba ben Pengo,kişisel asistanınızım.🥳Size nasıl yardımcı olabilirim? 🍽️</div>';
+        chatOptions.innerHTML = `
+            <button class="chat-option" onclick="choose('Yemek')">Yemek</button>
+            <button class="chat-option" onclick="choose('İçecek')">İçecek</button>
+        `;
+        state = {};
+    }
+
+    function closeChat() {
+        chatbotContainer.style.display = 'none';
+    }
+
+    function addMessage(text, isUser = false) {
+        const div = document.createElement('div');
+        div.className = 'chat-bubble' + (isUser ? ' user' : '');
+        div.textContent = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function choose(option) {
+        addMessage(option, true);
+        // İlk seçim: yemek/içecek
+        if (!state.type) {
+            if (option === 'Yemek') {
+                state.type = 'yemek';
+                askTasteYemek();
+            } else if (option === 'İçecek') {
+                state.type = 'içecek';
+                askTemp();
+            }
+            // İçecek: sıcak/soğuk -> sonra tatlı/ekşi
+        } else if (state.type === 'içecek' && !state.temp) {
+            state.temp = option.toLowerCase();
+            askTasteIcek();
+        }  else if (state.type === 'yemek' && !state.taste) {
+            state.taste = option.toLowerCase();
+            fetchRecommendation();
+        } else if (state.type === 'içecek' && state.temp && !state.taste) {
+            state.taste = option.toLowerCase();
+            fetchRecommendation();  // 💥 Bu adım seni öneriye götürür
+        }
+    }
+
+    function askTasteYemek() {
+        addMessage("Tatlı mı, tuzlu mu istersiniz?");
+        chatOptions.innerHTML = '';
+        ['Tatlı', 'Tuzlu'].forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'chat-option';
+            btn.textContent = opt;
+            btn.onclick = () => choose(opt);
+            chatOptions.appendChild(btn);
+        });
+    }
+
+    function askTemp() {
+        addMessage("Sıcak mı içersiniz, soğuk mu?");
+        chatOptions.innerHTML = '';
+        ['Sıcak', 'Soğuk'].forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'chat-option';
+            btn.textContent = opt;
+            btn.onclick = () => choose(opt);
+            chatOptions.appendChild(btn);
+        });
+    }
+
+    function askTasteIcek() {
+        addMessage("Tatlı mı, ekşi mi içersiniz?");
+        chatOptions.innerHTML = '';  // 🛠️ ESKİ BUTONLARI TEMİZLE
+        ['Tatlı', 'Ekşi'].forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'chat-option';
+            btn.textContent = opt;
+            btn.onclick = () => choose(opt);
+            chatOptions.appendChild(btn);
+        });
+    }
+
+    function fetchRecommendation() {
+        addMessage("Bir saniye, öneriler hazırlanıyor...");
+        chatOptions.innerHTML = '';
+
+        fetch(`/api/products/recommend?type=${state.type}&taste=${state.taste}&temperature=${state.temp || ''}`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.length) {
+                    addMessage("Maalesef eşleşen ürün bulunamadı.");
+                } else {
+                    addMessage("🍽️ Size şunları öneriyorum:");
+                    data.forEach(p => addMessage(p.name));
+                }
+            });
+    }
+</script>
+
+<script>
+    const waiterChannel = new BroadcastChannel('waiter-call');
+
+    document.getElementById("callWaiterBtn").addEventListener("click", () => {
+        const masaNo = localStorage.getItem("masaNo");
+        if (!masaNo) {
+            M.toast({ html: "Lütfen önce QR kod ile masa seçin!", classes: "red" });
+            return;
+        }
+
+        const modal = M.Modal.getInstance(document.getElementById('callWaiterModal'));
+        modal.open();
+    });
+
+    document.getElementById("callWaiterBtnMobile").addEventListener("click", () => {
+    const masaNo = localStorage.getItem("masaNo");
+    if (!masaNo) {
+        M.toast({ html: "Lütfen önce QR kod ile masa seçin!", classes: "red" });
+        return;
+    }
+
+    const modal = M.Modal.getInstance(document.getElementById('callWaiterModal'));
+    modal.open();
+});
+
+    function callWaiter(reason) {
+        const masaNo = localStorage.getItem("masaNo");
+        if (!masaNo) {
+            M.toast({ html: "Lütfen önce QR kod ile masa seçin!", classes: "red" });
+            return;
+        }
+
+        // Önce masa ID'sini bul
+        fetch('/api/tables')
+            .then(response => response.json())
+            .then(tables => {
+                const table = tables.find(t => t.tableNumber == masaNo);
+                if (!table) {
+                    M.toast({ html: "Masa bulunamadı!", classes: "red" });
+                    return;
+                }
+
+                // Garson çağırma isteği gönder
+                fetch(`/api/tables/${table.id}/call-waiter`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reason: reason })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Garson çağırma hatası');
+                    M.toast({ html: `Garson çağrıldı! (${reason}) 🛎️`, classes: "green" });
+                    const modal = M.Modal.getInstance(document.getElementById('callWaiterModal'));
+                    modal.close();
+                })
+                .catch(error => {
+                    console.error('Garson çağırma hatası:', error);
+                    M.toast({ html: "Garson çağırılırken bir hata oluştu!", classes: "red" });
+                });
+            })
+            .catch(error => {
+                console.error('Masa arama hatası:', error);
+                M.toast({ html: "Masa aranırken bir hata oluştu!", classes: "red" });
+            });
+    }
+</script>
+
+
+
+
+</body>
+</html>
